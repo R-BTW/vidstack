@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vidstack Player</title>
+    <!-- Import map for Vidstack CDN -->
+    <script type="importmap">
+    {
+        "imports": {
+            "vidstack/": "https://cdn.vidstack.io/"
+        }
+    }
+    </script>
+    <!-- Import Vidstack base styles -->
+    <style>
+        @import "https://cdn.vidstack.io/styles/base.css";
+        /* Custom styling to make it look nice */
+        body {
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+        #player {
+            width: 80%;
+            max-width: 960px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background-color: #000;
+        }
+        media-player {
+            --video-bg: #1a1a1a;
+            --controls-bg: rgba(0, 0, 0, 0.8);
+            --progress-color: #00b4d8;
+            --button-hover: #90e0ef;
+        }
+    </style>
+</head>
+<body>
+    <!-- Player container -->
+    <div id="player"></div>
+
+    <!-- Vidstack Player script -->
+    <script type="module">
+        import { VidstackPlayer } from 'vidstack/player';
+
+        // Video sources from JSON
+        const sources = [
+            {
+                src: 'https://frostywinds73.pro/file2/4UbNUWqfjMtRh7wNDQvLeCKMGRbl76MlhhKN4YmmFK~v1BNLf2+gpmak3LW79sT3tM2zCyrPduXE6H5xFlFf4Pf3cpSpx60gPvJGCH+Xh+ndYLHgr4AAv+94hpSLDqjIdIDsGouRgYm2Xf2VpWJdxCj+nFbqmu8iZpfR1UUxOJY=/MTA4MA==/aW5kZXgubTN1OA==.m3u8',
+                type: 'application/x-mpegURL',
+                quality: '1080p'
+            },
+            {
+                src: 'https://frostywinds73.pro/file2/4UbNUWqfjMtRh7wNDQvLeCKMGRbl76MlhhKN4YmmFK~v1BNLf2+gpmak3LW79sT3tM2zCyrPduXE6H5xFlFf4Pf3cpSpx60gPvJGCH+Xh+ndYLHgr4AAv+94hpSLDqjIdIDsGouRgYm2Xf2VpWJdxCj+nFbqmu8iZpfR1UUxOJY=/NzIw/aW5kZXgubTN1OA==.m3u8',
+                type: 'application/x-mpegURL',
+                quality: '720p'
+            },
+            {
+                src: 'https://frostywinds73.pro/file2/4UbNUWqfjMtRh7wNDQvLeCKMGRbl76MlhhKN4YmmFK~v1BNLf2+gpmak3LW79sT3tM2zCyrPduXE6H5xFlFf4Pf3cpSpx60gPvJGCH+Xh+ndYLHgr4AAv+94hpSLDqjIdIDsGouRgYm2Xf2VpWJdxCj+nFbqmu8iZpfR1UUxOJY=/MzYw/aW5kZXgubTN1OA==.m3u8',
+                type: 'application/x-mpegURL',
+                quality: '360p'
+            }
+        ];
+
+        // Subtitles from JSON
+        const subtitles = [
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/ara-2.vtt', lang: 'ar', label: 'Arabic' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/chi-27.vtt', lang: 'zh', label: 'Chinese 1' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/chi-28.vtt', lang: 'zh', label: 'Chinese 2' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/dan-3.vtt', lang: 'da', label: 'Danish' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/dut-17.vtt', lang: 'nl', label: 'Dutch' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/eng-6.vtt', lang: 'en', label: 'English 1', default: true },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/eng-7.vtt', lang: 'en', label: 'English 2' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/fin-9.vtt', lang: 'fi', label: 'Finnish' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/fre-10.vtt', lang: 'fr', label: 'French' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/ger-4.vtt', lang: 'de', label: 'German' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/gre-5.vtt', lang: 'el', label: 'Greek' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/heb-11.vtt', lang: 'he', label: 'Hebrew' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/ind-12.vtt', lang: 'id', label: 'Indonesian' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/ita-13.vtt', lang: 'it', label: 'Italian' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/jpn-14.vtt', lang: 'ja', label: 'Japanese' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/kor-15.vtt', lang: 'ko', label: 'Korean' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/nob-16.vtt', lang: 'no', label: 'Norwegian' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/pol-18.vtt', lang: 'pl', label: 'Polish' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/por-19.vtt', lang: 'pt', label: 'Portuguese 1' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/por-20.vtt', lang: 'pt', label: 'Portuguese 2' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/rum-21.vtt', lang: 'ro', label: 'Romanian' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/rus-22.vtt', lang: 'ru', label: 'Russian' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/spa-8.vtt', lang: 'es', label: 'Spanish' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/swe-23.vtt', lang: 'sv', label: 'Swedish' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/tha-24.vtt', lang: 'th', label: 'Thai' },
+            { url: 'https://cca.megafiles.store/e3/1b/e31bed0eb3355050d56c263cb99d19ce/tur-25.vtt', lang: 'tr', label: 'Turkish' }
+        ];
+
+        // Initialize Vidstack Player
+        (async () => {
+            const player = await VidstackPlayer.create({
+                target: '#player',
+                title: 'Video Player',
+                src: sources,
+                mediaOptions: {
+                    hls: {
+                        config: {
+                            xhrSetup: function(xhr) {
+                                const headers = {
+                                    'Referer': 'https://embed.su',
+                                    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36'
+                                    // Origin is skipped as it's set by the browser
+                                };
+                                for (const key in headers) {
+                                    if (headers.hasOwnProperty(key) && xhr.readyState === 0) {
+                                        try {
+                                            xhr.setRequestHeader(key, headers[key]);
+                                        } catch (e) {
+                                            console.warn(`Failed to set header ${key}: ${e.message}`);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Add subtitles
+            subtitles.forEach(sub => {
+                player.textTracks.add({
+                    src: sub.url,
+                    kind: 'subtitles',
+                    label: sub.label,
+                    language: sub.lang,
+                    default: sub.default || false
+                });
+            });
+        })();
+    </script>
+</body>
+</html>
